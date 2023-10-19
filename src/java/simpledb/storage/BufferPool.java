@@ -82,17 +82,20 @@ public class BufferPool {
             throw new DbException("No remaining space: reached max pages L");
         }
 
-        if(pidToTidMap.containsKey(pid) && pidToTidMap.get(pid) == tid){
-            if(bufferPoolHashMap.containsKey(pid)){
+        if(pidToTidMap.containsKey(pid)){
+            if(bufferPoolHashMap.containsKey(pid) && pidToTidMap.get(pid) == tid){
                 return bufferPoolHashMap.get(pid);
             }
             else{
-                Catalog catalog = Database.getCatalog();
-                return catalog.getDatabaseFile(pid.getTableId()).readPage(pid);
+                throw new TransactionAbortedException();
             }
+        } else {
+            Catalog catalog = Database.getCatalog();
+            Page newPage = catalog.getDatabaseFile(pid.getTableId()).readPage(pid);
+            pidToTidMap.put(pid, tid);
+            bufferPoolHashMap.put(pid, newPage);
+            return newPage;
         }
-
-        throw new TransactionAbortedException();
     }
 
     /**
