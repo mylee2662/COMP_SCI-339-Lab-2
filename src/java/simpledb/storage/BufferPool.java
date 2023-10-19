@@ -1,9 +1,6 @@
 package simpledb.storage;
 
-import simpledb.common.Database;
-import simpledb.common.Permissions;
-import simpledb.common.DbException;
-import simpledb.common.DeadlockException;
+import simpledb.common.*;
 import simpledb.transaction.TransactionAbortedException;
 import simpledb.transaction.TransactionId;
 
@@ -34,6 +31,11 @@ public class BufferPool {
     constructor instead. */
     public static final int DEFAULT_PAGES = 50;
 
+    public int maxNumPages;
+
+    public ConcurrentHashMap<PageId, Page> bufferPoolHashMap = new ConcurrentHashMap<PageId, Page>();
+    public ConcurrentHashMap<PageId, TransactionId> pidToTidMap = new ConcurrentHashMap<PageId, TransactionId>();
+
     /**
      * Creates a BufferPool that caches up to numPages pages.
      *
@@ -41,6 +43,7 @@ public class BufferPool {
      */
     public BufferPool(int numPages) {
         // some code goes here
+        maxNumPages = numPages;
     }
     
     public static int getPageSize() {
@@ -72,10 +75,24 @@ public class BufferPool {
      * @param pid the ID of the requested page
      * @param perm the requested permissions on the page
      */
-    public  Page getPage(TransactionId tid, PageId pid, Permissions perm)
+    public Page getPage(TransactionId tid, PageId pid, Permissions perm)
         throws TransactionAbortedException, DbException {
         // some code goes here
-        return null;
+        if(bufferPoolHashMap.size() >= maxNumPages) {
+            throw new DbException("No remaining space: reached max pages L");
+        }
+
+        if(pidToTidMap.containsKey(pid) && pidToTidMap.get(pid) == tid){
+            if(bufferPoolHashMap.containsKey(pid)){
+                return bufferPoolHashMap.get(pid);
+            }
+            else{
+                Catalog catalog = Database.getCatalog();
+                return catalog.getDatabaseFile(pid.getTableId()).readPage(pid);
+            }
+        }
+
+        throw new TransactionAbortedException();
     }
 
     /**

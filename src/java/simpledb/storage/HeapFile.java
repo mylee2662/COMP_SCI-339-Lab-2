@@ -22,6 +22,8 @@ import java.util.*;
  */
 public class HeapFile implements DbFile {
 
+
+
     /**
      * Constructs a heap file backed by the specified file.
      * 
@@ -31,6 +33,7 @@ public class HeapFile implements DbFile {
      */
     public HeapFile(File f, TupleDesc td) {
         // some code goes here
+
     }
 
     /**
