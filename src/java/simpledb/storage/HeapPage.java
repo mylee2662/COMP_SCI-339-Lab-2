@@ -73,7 +73,7 @@ public class HeapPage implements Page {
     */
     private int getNumTuples() {        
         // some code goes here
-        return 0;
+        return tuples.length;
 
     }
 
@@ -84,7 +84,7 @@ public class HeapPage implements Page {
     private int getHeaderSize() {        
         
         // some code goes here
-        return 0;
+        return header.length;
                  
     }
     
@@ -118,7 +118,7 @@ public class HeapPage implements Page {
      */
     public HeapPageId getId() {
     // some code goes here
-    throw new UnsupportedOperationException("implement this");
+    return pid;
     }
 
     /**
@@ -288,7 +288,7 @@ public class HeapPage implements Page {
      */
     public int getNumEmptySlots() {
         // some code goes here
-        return 0;
+        return numSlots - getNumTuples();
     }
 
     /**
@@ -296,7 +296,7 @@ public class HeapPage implements Page {
      */
     public boolean isSlotUsed(int i) {
         // some code goes here
-        return false;
+        return header[i] == 1;
     }
 
     /**
@@ -313,7 +313,7 @@ public class HeapPage implements Page {
      */
     public Iterator<Tuple> iterator() {
         // some code goes here
-        return null;
+        return Arrays.asList(tuples).iterator();
     }
 
 }
