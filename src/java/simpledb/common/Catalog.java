@@ -36,8 +36,6 @@ public class Catalog {
 
     public ConcurrentHashMap<Integer, CatalogItem> catMap = new ConcurrentHashMap<Integer, CatalogItem>();
     public ConcurrentHashMap<String, Integer> nameToIdMap = new ConcurrentHashMap<String, Integer>();
-    public List<DbFile> tables;
-    public List<TupleDesc> tupleDescList;
 
     /**
      * Constructor.
@@ -45,8 +43,6 @@ public class Catalog {
      */
     public Catalog() {
         // some code goes here
-        tables = new ArrayList<DbFile>();
-        tupleDescList = new ArrayList<TupleDesc>();
     }
 
     /**
