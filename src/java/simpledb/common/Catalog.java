@@ -34,10 +34,10 @@ public class Catalog {
         }
     }
 
-    ConcurrentHashMap<Integer, CatalogItem> catMap = new ConcurrentHashMap<Integer, CatalogItem>();
-    ConcurrentHashMap<String, Integer> nameToIdMap = new ConcurrentHashMap<String, Integer>();
-    List<DbFile> tables;
-    List<TupleDesc> tupleDescList;
+    public ConcurrentHashMap<Integer, CatalogItem> catMap = new ConcurrentHashMap<Integer, CatalogItem>();
+    public ConcurrentHashMap<String, Integer> nameToIdMap = new ConcurrentHashMap<String, Integer>();
+    public List<DbFile> tables;
+    public List<TupleDesc> tupleDescList;
 
     /**
      * Constructor.
