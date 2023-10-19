@@ -83,12 +83,20 @@ public class BufferPool {
         }
 
         if(pidToTidMap.containsKey(pid)){
+            if (!bufferPoolHashMap.containsKey(pid)) {
+                throw new TransactionAbortedException();
+            } else {
+                return bufferPoolHashMap.get(pid);
+            }
+            /*
             if(bufferPoolHashMap.containsKey(pid) && pidToTidMap.get(pid) == tid){
                 return bufferPoolHashMap.get(pid);
             }
             else{
                 throw new TransactionAbortedException();
             }
+
+             */
         } else {
             Catalog catalog = Database.getCatalog();
             Page newPage = catalog.getDatabaseFile(pid.getTableId()).readPage(pid);

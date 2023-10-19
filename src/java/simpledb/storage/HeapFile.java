@@ -126,7 +126,8 @@ public class HeapFile implements DbFile {
 
         try{
             RandomAccessFile raf = new RandomAccessFile(file, "r");
-            raf.read(data, offset, len);
+            raf.skipBytes(offset);
+            raf.read(data, 0, len);
 
             HeapPage page = new HeapPage((HeapPageId) pid, data);
             raf.close();

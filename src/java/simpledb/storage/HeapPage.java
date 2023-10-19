@@ -85,7 +85,11 @@ public class HeapPage implements Page {
     private int getHeaderSize() {        
         
         // some code goes here
-        return numSlots/8;
+        int headerSize = numSlots/8;
+        if (numSlots%8 != 0){
+            headerSize++;
+        }
+        return headerSize;
                  
     }
     
